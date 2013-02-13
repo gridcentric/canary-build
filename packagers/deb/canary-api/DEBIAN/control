@@ -1,0 +1,8 @@
+Package: canary-api
+Section: extra
+Version: VERSION
+Architecture: all
+Depends: python-canary (= VERSION)
+Recommends: nova-api
+Maintainer: Gridcentric Inc. <support@gridcentric.com>
+Description: Canary OpenStack monitoring service.

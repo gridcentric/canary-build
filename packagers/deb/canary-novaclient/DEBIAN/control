@@ -1,0 +1,7 @@
+Package: canary-novaclient
+Section: extra
+Version: VERSION
+Architecture: all
+Depends: python-novaclient
+Maintainer: Gridcentric Inc. <support@gridcentric.com>
+Description: Canary OpenStack monitoring service.

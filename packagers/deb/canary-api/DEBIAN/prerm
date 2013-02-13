@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e
+
+function remove_extension {
+    NOVA_CONF=$1
+    EXTENSION=$2
+
+    if [ -f $NOVA_CONF ]; then
+
+        # Automatically remove the extension from nova.conf if it was added.
+        cat $NOVA_CONF | \
+            grep -v $EXTENSION > $NOVA_CONF.new && \
+            mv $NOVA_CONF.new $NOVA_CONF || \
+            rm -f $NOVA_CONF.new
+
+        # Restart the api service (if running).
+        service nova-api restart 2>/dev/null || true
+        service nova-api-os-compute restart 2>/dev/null || true
+    fi
+}
+
+case $1 in
+    remove)
+        remove_extension \
+            /etc/nova/nova.conf \
+            canary.extension.Canary_extension
+        ;;
+esac

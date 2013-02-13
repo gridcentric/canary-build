@@ -1,0 +1,6 @@
+Package: python-canary
+Section: extra
+Version: VERSION
+Architecture: all
+Maintainer: Gridcentric Inc. <support@gridcentric.com>
+Description: Canary OpenStack monitoring service.
