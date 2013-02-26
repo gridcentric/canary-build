@@ -149,8 +149,8 @@ rpm : rpm-nova rpm-novaclient
 
 rpm-%: build-%
 	@rm -rf dist/$*/etc/init
-	@rpmbuild -bb --buildroot $(PWD)/rpmbuild/BUILDROOT \
-	  --define="%_topdir $(PWD)/rpmbuild" --define="%version $(VERSION).$(RELEASE)" \
+	@rpmbuild -bb --buildroot $(CURDIR)/rpmbuild/BUILDROOT \
+	  --define="%_topdir $(CURDIR)/rpmbuild" --define="%version $(VERSION).$(RELEASE)" \
 	  --define="%release $(OPENSTACK_RELEASE)" packagers/rpm/$*.spec
 	@cp rpmbuild/RPMS/noarch/*.rpm .
 .PHONY : rpm
