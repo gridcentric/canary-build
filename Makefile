@@ -65,7 +65,7 @@ build-canary-novaclient :
 
 build-canary-host : build-python-canary
 	@rm -rf build/ dist/canary-host
-	@PACKAGE=host VERSION=$(VERSION).$(RELEASE) \
+	@PACKAGE=host DESTDIR=$(CURDIR)/dist/canary-host/ VERSION=$(VERSION).$(RELEASE) \
 	    $(PYTHON) setup.py install --prefix=$(CURDIR)/dist/canary-host/usr
 	@$(INSTALL_DIR) dist/canary-host/etc/init
 	@$(INSTALL_DATA) etc/init/canary.conf dist/canary-host/etc/init
