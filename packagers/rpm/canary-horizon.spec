@@ -10,7 +10,7 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}.%{version}-buildroot
 AutoReq: no
 AutoProv: no
-Requires: python-canary >= %{version}, canary-novaclient >= %{version}
+Requires: python-canary = %{version}, canary-novaclient = %{version}
 
 # To prevent ypm/rpm/zypper/etc from complaining about FileDigests when installing we set the
 # algorithm explicitly to MD5SUM. This should be compatible across systems (e.g. RedHat or openSUSE)

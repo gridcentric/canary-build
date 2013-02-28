@@ -96,7 +96,7 @@ deb-% : build-%
 	@rsync -ruav packagers/deb/$*/ debbuild
 	@rsync -ruav dist/$*/ debbuild
 	@rm -rf debbuild/etc/init.d
-	@sed -i "s/VERSION/$(VERSION).$(RELEASE)-$(OPENSTACK_RELEASE)/" debbuild/DEBIAN/control
+	@sed -i "s/VERSION/$(VERSION).$(RELEASE)-$(OPENSTACK_RELEASE)/g" debbuild/DEBIAN/control
 	@dpkg -b debbuild/ .
 	@rm -rf debbuild && $(INSTALL_DIR) debbuild
 	@rsync -ruav packagers/deb/$*/ debbuild
@@ -106,7 +106,7 @@ deb-% : build-%
 	 if [ -d $$LIBDIR/site-packages ]; then \
 	    mv $$LIBDIR/site-packages $$LIBDIR/dist-packages; \
 	 fi
-	@sed -i "s/VERSION/$(VERSION).$(RELEASE)-ubuntu+$(OPENSTACK_RELEASE)/" debbuild/DEBIAN/control
+	@sed -i "s/VERSION/$(VERSION).$(RELEASE)-ubuntu+$(OPENSTACK_RELEASE)/g" debbuild/DEBIAN/control
 	@dpkg -b debbuild/ .
 
 tgz-nova : tgz-python-canary

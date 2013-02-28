@@ -3,6 +3,6 @@ Section: extra
 Version: VERSION
 Architecture: all
 Recommends: openstack-dashboard
-Depends: python-canary (>= VERSION), canary-novaclient (>= VERSION)
+Depends: python-canary (= VERSION), canary-novaclient (= VERSION)
 Maintainer: Gridcentric Inc. <support@gridcentric.com>
 Description: Canary OpenStack monitoring service.
