@@ -76,7 +76,7 @@ build-canary-host : build-python-canary
 build-canary-horizon : build-python-canary
 	@rm -rf build/ dist/canary-horizon
 	@mkdir -p dist/canary-horizon
-	@PACKAGE=horizon VERSION=$(VERSION).$(RELEASE) \
+	@PACKAGE=horizon DESTDIR=$(CURDIR)/dist/canary-horizon VERSION=$(VERSION).$(RELEASE) \
 	    $(PYTHON) setup.py install --prefix=$(CURDIR)/dist/canary-horizon/usr
 .PHONY: build-canary-horizon
 
@@ -121,7 +121,7 @@ tgz : tgz-nova tgz-novaclient tgz-horizon
 .PHONY : tgz
 
 tgz-% : build-%
-	tar -cvzf $*_$(VERSION).$(RELEASE)-$(OPENSTACK_RELEASE).tgz -C dist/$* .
+	@tar -cvzf $*_$(VERSION).$(RELEASE)-$(OPENSTACK_RELEASE).tgz -C dist/$* .
 
 pip : pip-canary-novaclient
 .PHONY: pip
