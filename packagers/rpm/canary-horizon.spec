@@ -72,7 +72,7 @@ function remove_extension {
     fi
 }
 
-if [ "$1" = "1" ]; then
+if [ "$1" = "0" ]; then
     remove_extension \
         /etc/openstack-dashboard/local_settings.py \
         canary.horizon
