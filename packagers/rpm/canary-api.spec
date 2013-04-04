@@ -71,7 +71,7 @@ function remove_extension {
     fi
 }
 
-if [ "$1" == "1" ]; then
+if [ "$1" == "0" ]; then
     remove_extension \
         /etc/nova/nova.conf \
         canary.extension.Canary_extension

@@ -43,7 +43,7 @@ else
 fi
 
 %preun
-if [ "$1" = "1" ]; then
+if [ "$1" = "0" ]; then
     # Stop the service before removing completely.
     /etc/init.d/canary stop 2>/dev/null || true
 fi
