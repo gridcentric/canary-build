@@ -1,5 +1,9 @@
 #!/usr/bin/make -f
 
+# The path to core and client code.
+CORE_PATH ?=
+CLIENT_PATH ?=
+
 # This command is used to setup the package directories.
 INSTALL_DIR := install -d -m0755 -p
 INSTALL_BIN := install -m0755 -p 
@@ -41,42 +45,42 @@ build : build-nova build-novaclient build-horizon
 .PHONY : build
 
 build-python-canary :
-	@rm -rf build/ dist/python-canary
-	@PACKAGE=canary VERSION=$(VERSION).$(RELEASE) \
+	@rm -rf $(CORE_PATH)/build/ dist/python-canary
+	@cd $(CORE_PATH) && PACKAGE=canary VERSION=$(VERSION).$(RELEASE) \
 	    $(PYTHON) setup.py install --prefix=$(CURDIR)/dist/python-canary/usr
 	@sed -i -e "s/'.*' ##TIMESTAMP##/'$(TIMESTAMP)' ##TIMESTAMP##/" \
 	    `find dist/python-canary/ -name extension.py`
 PHONY: build-python-canary
 
 build-canary-api : build-python-canary
-	@rm -rf build/ dist/canary-api
+	@rm -rf $(CORE_PATH)/build/ dist/canary-api
 	@mkdir -p dist/canary-api
-	@PACKAGE=api VERSION=$(VERSION).$(RELEASE) \
+	@cd $(CORE_PATH) && PACKAGE=api VERSION=$(VERSION).$(RELEASE) \
 	    $(PYTHON) setup.py install --prefix=$(CURDIR)/dist/canary-api/usr
 .PHONY: build-canary-api
 
 build-canary-novaclient :
-	@rm -rf build/ dist/canary-novaclient
+	@rm -rf $(CLIENT_PATH)/build/ dist/canary-novaclient
 	@mkdir -p $(CURDIR)/dist/canary-novaclient/usr/lib/python/site-packages
-	@PACKAGE=novaclient VERSION=$(VERSION).$(RELEASE) \
+	@cd $(CLIENT_PATH) && PACKAGE=novaclient VERSION=$(VERSION).$(RELEASE) \
 	    PYTHONPATH=$(CURDIR)/dist/canary-novaclient/usr/lib/$(PYTHON)/site-packages \
 	    $(PYTHON) setup.py install --prefix=$(CURDIR)/dist/canary-novaclient/usr
 .PHONY: build-canary-novaclient
 
 build-canary-host : build-python-canary
-	@rm -rf build/ dist/canary-host
-	@PACKAGE=host DESTDIR=$(CURDIR)/dist/canary-host/ VERSION=$(VERSION).$(RELEASE) \
+	@rm -rf $(CORE_PATH)/build/ dist/canary-host
+	@cd $(CORE_PATH) && PACKAGE=host DESTDIR=$(CURDIR)/dist/canary-host/ VERSION=$(VERSION).$(RELEASE) \
 	    $(PYTHON) setup.py install --prefix=$(CURDIR)/dist/canary-host/usr
 	@$(INSTALL_DIR) dist/canary-host/etc/init
-	@$(INSTALL_DATA) etc/init/canary.conf dist/canary-host/etc/init
+	@$(INSTALL_DATA) $(CORE_PATH)/etc/init/canary.conf dist/canary-host/etc/init
 	@$(INSTALL_DIR) dist/canary-host/etc/init.d
-	@$(INSTALL_BIN) etc/init.d/canary dist/canary-host/etc/init.d
+	@$(INSTALL_BIN) $(CORE_PATH)/etc/init.d/canary dist/canary-host/etc/init.d
 .PHONY: build-canary-host
 
 build-canary-horizon : build-python-canary
-	@rm -rf build/ dist/canary-horizon
+	@rm -rf $(CORE_PATH)/build/ dist/canary-horizon
 	@mkdir -p dist/canary-horizon
-	@PACKAGE=horizon DESTDIR=$(CURDIR)/dist/canary-horizon VERSION=$(VERSION).$(RELEASE) \
+	@cd $(CORE_PATH) && PACKAGE=horizon DESTDIR=$(CURDIR)/dist/canary-horizon VERSION=$(VERSION).$(RELEASE) \
 	    $(PYTHON) setup.py install --prefix=$(CURDIR)/dist/canary-horizon/usr
 .PHONY: build-canary-horizon
 
@@ -127,10 +131,10 @@ pip : pip-canary-novaclient
 .PHONY: pip
 
 pip-canary-novaclient :
-	@rm -rf build/
-	@PACKAGE=novaclient VERSION=$(VERSION).$(RELEASE) \
+	@rm -rf $(CLIENT_PATH)/build/
+	@cd $(CLIENT_PATH) && PACKAGE=novaclient VERSION=$(VERSION).$(RELEASE) \
 	    $(PYTHON) setup.py sdist
-	@cp dist/canary_python_novaclient_ext*.tar.gz .
+	@cp $(CLIENT_PATH)/dist/canary_python_novaclient_ext*.tar.gz .
 .PHONY: pip-canary-novaclient
 
 rpm-nova : rpm-python-canary
