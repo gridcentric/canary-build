@@ -110,7 +110,7 @@ deb-% : build-%
 	 if [ -d $$LIBDIR/site-packages ]; then \
 	    mv $$LIBDIR/site-packages $$LIBDIR/dist-packages; \
 	 fi
-	@sed -i "s/VERSION/$(VERSION).$(RELEASE)-ubuntu_$(OPENSTACK_RELEASE)/g" debbuild/DEBIAN/control
+	@sed -i "s/VERSION/$(VERSION).$(RELEASE)-ubuntu$(OPENSTACK_RELEASE)/g" debbuild/DEBIAN/control
 	@dpkg -b debbuild/ .
 
 tgz-nova : tgz-python-canary
